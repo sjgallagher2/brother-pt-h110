@@ -1,19 +1,19 @@
 # Brother PT-H110 Label Maker
 
-I'm interested in repurposing this Brother label maker for its keyboard and display. Is it hackable? I guess we'll find out. From Furrtek, we already have a head start: https://github.com/furrtek/PTouchHH. Seems like the microcontroller is pretty much completely locked out. Could bother with double-checking? TBD.
+I'm interested in repurposing this Brother label maker for its keyboard and display. Is it hackable? I guess we'll find out. From @furrtek, we already have a head start: https://github.com/furrtek/PTouchHH. Seems like the microcontroller is pretty much completely locked out. Could bother with double-checking? TBD.
 
 
-![[Photos-001/PXL_20241219_235555626.jpg]]
-![[Photos-001/PXL_20241220_001044906.jpg]]
+![](Photos-001/PXL_20241219_235555626.jpg)
+![](Photos-001/PXL_20241220_001044906.jpg)
 
 ## Main Board
 
 
-![[Photos-001/PXL_20241220_001539005.jpg]]
+![](Photos-001/PXL_20241220_001539005.jpg)
 
 I was able to scan the back of the board since it's flat. I'd need to remove some components from the front to do the same there. Even with the small deviation from flatness at the bottom, the focus goes slightly out in this scan.
 
-![[MainBoardBack.png]]
+![](MainBoardBack.png)
 
 ## Notable Parts
 
@@ -32,9 +32,9 @@ Something that's going to be interesting: the keyboard being part of the main bo
 
 I traced out the keyboard matrix. Whether that was really necessary, who's to say...
 
-![[keyboard_traces.png]]
+![](keyboard_traces.png)
 
 The matrix below maps the pins on the main MCU to the 62 buttons (60 keys, since space is actually three buttons). The column represents the top pad, the row represents the bottom pad. For example the `A` key is pin 28 (top) and pin 37 (bottom).
 
-![[KeyboardMatrix.png]]
+![](KeyboardMatrix.png)
 
