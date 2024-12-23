@@ -43,7 +43,7 @@ The matrix below maps the pins on the main MCU to the 62 buttons (60 keys, since
 
 The LCD is custom. A closer look from an online image:
 
-![](img/Pasted image 20241223092521.png)
+![](img/Ptouch_screen2.png)
 
 Display is a mixed segment and dot matrix (144 x 16) LCD. There are 8 pins:
 
@@ -62,15 +62,15 @@ From looking up similar displays on DigiKey, this display could very well use an
 
 Clock frequency is around 4MHz. Here's an example of pins 4-8 captured with the Saleae at 50Msps:
 
-![](img/Pasted image 20241222201343.png)
+![](img/logicanalyzer1.png)
 
 This is SPI communication, MSB first, CPOL=0, CPHA=0, Enable active LOW.
 
-![](img/Pasted image 20241223134911.png)
+![](img/spisettings.png)
 
 We're not so lucky as to get any ASCII characters. Instead, I found that the dot matrix is written to pixel-by-pixel, raster-style from left to right, written in 8-pixel bytes. Data comes through roughly every 5.68us. To illustrate how this works, I made a capture with the following written on the display:
 
-![](img/Pasted image 20241222204945.png)
+![](img/Ptouch_screen1.png)
 
 That's `abcdefghiaaaas`. I used this and a lot of tinkering, truncating, and rearranging to determine how the bits map to pixels. 
 
@@ -154,15 +154,15 @@ F000000000000000000000000000000000000800800002000C008010000000000000000008008000
 
 After trying a few different approaches, I found that by taking the bulk data, skipping the first 36 bytes, and plotting it in a 16bit tall dot matrix row-first (so that `F0` maps to the first row, `11110000`) we get something close to correct:
 
-![](img/Pasted image 20241223122957.png)
+![](img/dotmat1.png)
 
 Problems here are because the width is actually 128 \[edit: later found to be 144], so it's more like we're getting lucky by the line offsets, it should wrap at 128 \[144] excluding any segments that get written to, which would be added. So instead, by using the full length of the data, and iterating over line widths, I arrived at 144 columns to reproduce the text:
 
-![](img/Pasted image 20241223124752.png)
+![](img/dotmat2.png)
 
 First 16 rows only:
 
-![](img/Pasted image 20241223133140.png)
+![](img/dotmat3.png)
 
 It seems like the dot matrix is actually 144 pixels, unless the remainder are for segments. The other data is corrupted because I realized it's a mix of commands and data, probably controlling the segments. 
 
@@ -170,7 +170,7 @@ It seems like the dot matrix is actually 144 pixels, unless the remainder are fo
 
 In this part of the capture, we see commands (`A0` does not go HIGH) and data (`A0` is HIGH for the duration). While `A0` is actually latched by the ST7565 (still assuming that's the controller) in the capture it stays HIGH the whole byte. 
 
-![](img/Pasted image 20241223135624.png)
+![](img/logicanalyzer2.png)
 
 ```
 11 01 C8    Commands
@@ -213,7 +213,7 @@ Anyway, I'm just about done here, I don't need to know the display commands in o
 
 Here's what I'm seeing for a full session from start to finish. First, the general timing:
 
-![](img/Pasted image 20241223143241.png)
+![](img/timingmarkers.png)
 
 Pseudocode:
 ```
