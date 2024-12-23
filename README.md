@@ -60,6 +60,15 @@ Display is a mixed segment and dot matrix (144 x 16) LCD. There are 8 pins:
 
 From looking up similar displays on DigiKey, this display could very well use an ST7565, although the commands seem to be different. The interface is similar enough, though. 
 
+Here's the connections for the logic analyzer. I used some UV-cure epoxy to keep the wires in place. 
+
+![](img/logichookup3.png)
+
+![](img/logichookup2.png)
+
+![](img/logichookup1.png)
+
+
 Clock frequency is around 4MHz. Here's an example of pins 4-8 captured with the Saleae at 50Msps:
 
 ![](img/logicanalyzer1.png)
